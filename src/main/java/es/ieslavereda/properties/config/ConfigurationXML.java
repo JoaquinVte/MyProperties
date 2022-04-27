@@ -3,21 +3,21 @@ package es.ieslavereda.properties.config;
 import java.io.*;
 import java.util.Properties;
 
-public class Configuration {
+public class ConfigurationXML {
 
-    private static Configuration instance;
+    private static ConfigurationXML instance;
 
     private static Properties myProperties;
-    private final String DEFAULT_PROPERTIES_FILE = "default.properties";
-    private final String CUSTOM_PROPERTIES_FILE = "custom.properties";
+    private final String DEFAULT_PROPERTIES_FILE = "defaultXML.properties";
+    private final String CUSTOM_PROPERTIES_FILE = "customXML.properties";
 
-    private Configuration(){
+    private ConfigurationXML(){
 
         Properties defaultProperties = new Properties();
 
         try(FileInputStream fis = new FileInputStream(DEFAULT_PROPERTIES_FILE)){
 
-            defaultProperties.load(fis);
+            defaultProperties.loadFromXML(fis);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -29,7 +29,7 @@ public class Configuration {
 
         try(FileInputStream fis = new FileInputStream(CUSTOM_PROPERTIES_FILE)){
 
-            myProperties.load(fis);
+            myProperties.loadFromXML(fis);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -39,17 +39,15 @@ public class Configuration {
 
     }
 
-    public static Configuration getInstance(){
+    public static ConfigurationXML getInstance(){
         if(instance==null)
-            instance = new Configuration();
+            instance = new ConfigurationXML();
         return instance;
     }
 
     private void save(){
         try (FileOutputStream fos = new FileOutputStream(CUSTOM_PROPERTIES_FILE)) {
-
-            myProperties.store(fos, "UTF-8");
-
+            myProperties.storeToXML(fos,"UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
